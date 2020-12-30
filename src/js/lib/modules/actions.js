@@ -12,7 +12,7 @@ $.prototype.html = function(content) { // меняем html-контент эл�
     
 };
 
-$.prototype.eq = function(i) {
+$.prototype.eq = function(i) { // возвращаем конкретный элемент
     let swap = this[i];
     let objLength = Object.keys(this).length;
 
@@ -24,10 +24,12 @@ $.prototype.eq = function(i) {
     this[0] = swap;
     this.length = 1;
 
+    console.log(this);
+
     return this;
 };
 
-$.prototype.index = function() {
+$.prototype.index = function() { // возвращает индекс элемента
     let parent = this[0].parentNode;
     let childs = [...parent.children];
     
@@ -58,7 +60,7 @@ $.prototype.index = function() {
 $.prototype.find = function(selector) {
     let numberOfItems = 0;
     let counter = 0;
-    const copyObj = Object.assign({}, this); // чтобы не было багов
+    const copyObj = Object.assign({}, this); // чтобы не было багов делаем поверхностную копию
     
     for(let i = 0; i < copyObj.length; i++) {
         const arr = copyObj[i].querySelectorAll(selector);
@@ -83,7 +85,7 @@ $.prototype.find = function(selector) {
 
 };
 
-$.prototype.closest = function(selector) {
+$.prototype.closest = function(selector) { // ищем ближайшего родителя по селектору
     let counter = 0;
     let amount = Object.keys(this).length;
     for(let i = 0; i < amount-1; i++) {
