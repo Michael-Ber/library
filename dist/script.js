@@ -458,33 +458,63 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.animateOverTime = functi
   return _animateOverTime;
 };
 
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeInTech = function (dur, display, fin) {
+  const _fadeInTech = () => {
+    for (let i = 0; i < this.length; i++) {
+      this[i].style.display = display || 'block'; // старый способ, в новом задаем в параметрах по умолчанию при объявлении функции
+
+      const _fadeIn = complection => {
+        this[i].style.opacity = complection;
+      };
+
+      const ani = this.animateOverTime(dur, _fadeIn, fin);
+      requestAnimationFrame(ani);
+    }
+  };
+
+  return _fadeInTech;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOutTech = function (dur, display, fin) {
+  const _fadeOutTech = () => {
+    for (let i = 0; i < this.length; i++) {
+      const _fadeOut = complection => {
+        this[i].style.opacity = 1 - complection;
+
+        if (complection === 1) {
+          this[i].style.display = 'none';
+        }
+      };
+
+      const ani = this.animateOverTime(dur, _fadeOut, fin);
+      requestAnimationFrame(ani);
+    }
+  };
+
+  return _fadeOutTech;
+};
+
 _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeIn = function (dur, display, fin) {
-  for (let i = 0; i < this.length; i++) {
-    this[i].style.display = display || 'block'; // старый способ, в новом задаем в параметрах по умолчанию при объявлении функции
-
-    const _fadeIn = complection => {
-      this[i].style.opacity = complection;
-    };
-
-    const ani = this.animateOverTime(dur, _fadeIn, fin);
-    requestAnimationFrame(ani);
-  }
-
+  const ani = this.fadeInTech(dur, display, fin);
+  requestAnimationFrame(ani);
   return this;
 };
 
 _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOut = function (dur, display, fin) {
+  const ani = this.fadeOutTech(dur, display, fin);
+  requestAnimationFrame(ani);
+  return this;
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeToggle = function (dur, display, fin) {
   for (let i = 0; i < this.length; i++) {
-    const _fadeOut = complection => {
-      this[i].style.opacity = 1 - complection;
-
-      if (complection === 1) {
-        this[i].style.display = 'none';
-      }
-    };
-
-    const ani = this.animateOverTime(dur, _fadeOut, fin);
-    requestAnimationFrame(ani);
+    if (window.getComputedStyle(this[i]).display === 'none') {
+      const ani = this.fadeInTech(dur, display, fin);
+      requestAnimationFrame(ani);
+    } else {
+      const ani = this.fadeOutTech(dur, display, fin);
+      requestAnimationFrame(ani);
+    }
   }
 
   return this;
@@ -493,7 +523,7 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOut = function (dur,
 _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.moveRight = function (dur, display, fin) {
   for (let i = 0; i < this.length; i++) {
     const _moveRight = complection => {
-      this[i].style.transform = `translateX(${complection * 200}px)`; //200 = moving left to 200px 
+      this[i].style.transform = `translateX(${complection * 200}px)`; //200 = moving right to 200px 
     };
 
     const ani = this.animateOverTime(dur, _moveRight, fin);
@@ -501,7 +531,30 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.moveRight = function (du
   }
 
   return this;
-};
+}; // $.prototype.fadeIn = function(dur, display, fin) {
+//     for(let i = 0; i < this.length; i++) {
+//         this[i].style.display = display || 'block'; // старый способ, в новом задаем в параметрах по умолчанию при объявлении функции
+//         const _fadeIn = (complection) => {
+//             this[i].style.opacity = complection;
+//         };
+//         const ani = this.animateOverTime(dur, this._fadeIn, fin);
+//         requestAnimationFrame(ani);
+//     }
+//     return this;
+// };
+// $.prototype.fadeOut = function(dur, display, fin) {
+//     for(let i = 0; i < this.length; i++) {
+//         const _fadeOut = (complection) => {
+//             this[i].style.opacity = 1 - complection;
+//             if(complection === 1) {
+//                 this[i].style.display = 'none';
+//             }
+//         };
+//         const ani = this.animateOverTime(dur, _fadeOut, fin);
+//         requestAnimationFrame(ani);
+//     }
+//     return this;
+// };
 
 /***/ }),
 
@@ -566,36 +619,29 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.click = function (handle
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/lib */ "./src/js/lib/lib.js");
 
- // $('.active').toggleClass('helloo');
 
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').on('click', function () {
-  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])(this).toggleClass('active');
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.btn-primary').click(function () {
+  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.text1').fadeOut('4000');
 });
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').on('click', function () {
-  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])(this).html("i'm here");
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.btn-success').click(function () {
+  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.text1').fadeIn('4000');
 });
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').on('click', function () {
-  console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').eq(5).index());
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.btn-warning').click(function () {
+  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.text1, .text2').fadeToggle('4000');
 });
-console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').eq(5)); // const elem = $('button')[0];
-// let start = null;
-// function step(timeStamp) { // после каждого вызова функции timeStamp меняется ~ на 17мс, а start остается прежним 
-//     if(!start) {
-//         start = timeStamp;
-//     }
-//     console.log(start, timeStamp);
-//     let progress = timeStamp - start;
-//     elem.style.transform = `translateX(${+Math.min(progress/10, 200)}px)`;
-//     if(progress < 2000) {
-//         window.requestAnimationFrame(step);
-//     }
-// }
-// window.requestAnimationFrame(step);
-// $('button').fadeIn('5000');
 
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').click(function () {
-  Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').moveRight('4000');
-});
+function test() {
+  console.log('1');
+
+  const _test1 = () => {
+    return 1 + 1;
+  };
+
+  return _test1();
+}
+
+const a = test();
+console.log(a);
 
 /***/ })
 
