@@ -84,6 +84,40 @@
     display: block;
     width: 100%; }
 
+.dropdown {
+  position: relative;
+  display: inline-block; }
+  .dropdown-toggle:after {
+    content: '';
+    border-top: 5px solid;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 0;
+    margin-left: 4px;
+    display: inline-block;
+    vertical-align: 3px; }
+  .dropdown-menu {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    background-color: #fff;
+    min-width: 100%;
+    padding: 10px 0; }
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 7px 10px;
+    background-color: transparent;
+    color: #343a40;
+    border: 0;
+    text-decoration: none; }
+    .dropdown-item:hover {
+      background-color: rgba(0, 0, 0, 0.05); }
+
 .text-center {
   text-align: center; }
 
