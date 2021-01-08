@@ -181,19 +181,20 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.createModal = function (
     modal.classList.add('modal');
     modal.setAttribute('id', this[i].getAttribute('data-target').slice(1)); //btns = {count: num, settings: [[text, [...classNames], close, cb]]}
 
-    let buttons = [];
+    let buttons = []; // const settings = [...btns.settings]; 
 
     for (let j = 0; j < btns.count; j++) {
+      let [text, classNames, close, cb] = btns.settings[j];
       let btn = document.createElement('button');
-      btn.textContent = btns.settings[j][0];
-      btn.classList.add(...btns.settings[j][1]);
+      btn.textContent = text;
+      btn.classList.add(...classNames);
 
-      if (btns.settings[j][2]) {
+      if (close) {
         btn.setAttribute('data-close', 'true');
       }
 
-      if (btns.settings[j][3] && typeof btns.settings[j][3] === 'function') {
-        btn.addEventListener('click', btns.settings[j][3]);
+      if (cb && typeof cb === 'function') {
+        btn.addEventListener('click', cb);
       }
 
       buttons.push(btn);
@@ -223,6 +224,30 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.createModal = function (
     Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].getAttribute('data-target')).fadeIn(500);
   }
 };
+
+/***/ }),
+
+/***/ "./src/js/lib/components/tab.js":
+/*!**************************************!*\
+  !*** ./src/js/lib/components/tab.js ***!
+  \**************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.tab = function () {
+  for (let i = 0; i < this.length; i++) {
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).on('click', () => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).addClass('tab-item--active').siblings().removeClass('tab-item--active').closest('.tab').find('.tab-content').removeClass('tab-content--active').eq(Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).index()).addClass('tab-content--active');
+    });
+  }
+};
+
+Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-tabpanel] .tab-item').tab();
 
 /***/ }),
 
@@ -279,6 +304,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/effects */ "./src/js/lib/modules/effects.js");
 /* harmony import */ var _components_dropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/dropdown */ "./src/js/lib/components/dropdown.js");
 /* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/modal */ "./src/js/lib/components/modal.js");
+/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/tab */ "./src/js/lib/components/tab.js");
+
 
 
 
@@ -327,7 +354,6 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.eq = function (i) {
 
   this[0] = swap;
   this.length = 1;
-  console.log(this);
   return this;
 };
 
@@ -489,7 +515,7 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.addClass = function (...
 
 _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.removeClass = function (...classNames) {
   for (let i = 0; i < this.length; i++) {
-    if (!this.classList) {
+    if (!this[i].classList) {
       return this;
     }
 

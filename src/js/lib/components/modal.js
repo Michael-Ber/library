@@ -59,18 +59,21 @@ $.prototype.createModal = function({text, btns} = {}) {
         //btns = {count: num, settings: [[text, [...classNames], close, cb]]}
         
         let buttons = [];
+        // const settings = [...btns.settings]; 
         for(let j = 0; j < btns.count; j++) {
+            let [text, classNames, close, cb] = btns.settings[j];
             let btn = document.createElement('button');
-            btn.textContent = btns.settings[j][0];
-            btn.classList.add(...btns.settings[j][1]);
-            if(btns.settings[j][2]) {
+            btn.textContent = text;
+            btn.classList.add(...classNames);
+            if(close) {
                 btn.setAttribute('data-close', 'true');
             }
-            if(btns.settings[j][3] && (typeof(btns.settings[j][3]) === 'function')) {
-                btn.addEventListener('click', btns.settings[j][3]);
+            if(cb && (typeof(cb) === 'function')) {
+                btn.addEventListener('click', cb);
             }
             buttons.push(btn);
         }
+        
         modal.innerHTML = `
             <div class="modal-dialog">
                 <div class="modal-content">

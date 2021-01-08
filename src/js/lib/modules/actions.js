@@ -24,7 +24,6 @@ $.prototype.eq = function(i) { // возвращаем конкретный эл
     this[0] = swap;
     this.length = 1;
 
-    console.log(this);
 
     return this;
 };
