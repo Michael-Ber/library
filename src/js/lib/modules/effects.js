@@ -85,9 +85,41 @@ $.prototype.moveRight = function(dur, display, fin) {
     for(let i = 0; i < this.length; i++) {
         const _moveRight = (complection) => {
             this[i].style.transform = `translateX(${complection*200}px)`;//200 = moving right to 200px 
-            
         };
         const ani = this.animateOverTime(dur, _moveRight, fin);
+        requestAnimationFrame(ani);
+    }
+    return this;
+};
+
+$.prototype.fadeInUp = function(dur, display, fin) {
+    for(let i = 0; i < this.length; i++) {
+        const _fadeInUp = (complection) => {
+            this[i].style.transform = `translateY(${complection*200}px)`;
+        };
+        const ani = this.animateOverTime(dur, _fadeInUp, fin);
+        requestAnimationFrame(ani);
+    }
+    return this;
+};
+
+$.prototype.fadeInHeight = function(dur, display, fin) {
+    for(let i = 0; i < this.length; i++) {
+        const _fadeInHeight = (complection) => {
+            this[i].style.maxHeight = `${complection*100}px`;
+        };
+        const ani = this.animateOverTime(dur, _fadeInHeight, fin);
+        requestAnimationFrame(ani);
+    }
+    return this;
+};
+
+$.prototype.fadeOutHeight = function(dur, display, fin) {
+    for(let i = 0; i < this.length; i++) {
+        const _fadeOutHeight = (complection) => {
+            this[i].style.maxHeight = `${(1-complection)*100}px`;
+        };
+        const ani = this.animateOverTime(dur, _fadeOutHeight, fin);
         requestAnimationFrame(ani);
     }
     return this;
