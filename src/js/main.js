@@ -46,3 +46,8 @@ $('#trigger').click(() => {
         }
     });  
 });
+
+// $().get('https://jsonplaceholder.typicode.com/todos/1')
+//     .then(res => console.log(res));
+$().post('https://jsonplaceholder.typicode.com/posts', 'Lorem ipsum dolor sit amet consectetur adipisicing elit.')
+    .then(res => console.log(res));

@@ -1831,12 +1831,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_core__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.carousel = function () {
+_core__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.carousel = function ({
+  auto
+} = {}) {
   for (let i = 0; i < this.length; i++) {
     const width = window.getComputedStyle(this[i].querySelector('.carousel-inner')).width;
     const slides = this[i].querySelectorAll('.carousel-item');
     const slidesField = this[i].querySelector('.carousel-slides');
     const dots = this[i].querySelectorAll('.carousel-indicators li');
+    let timerId;
     slides.forEach(slide => {
       slide.style.width = width;
     });
@@ -1887,6 +1890,34 @@ _core__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.carousel = function () {
       });
       dots[slideIndex].classList.add('active');
     });
+
+    if (auto) {
+      function moveSlidesAuto() {
+        timerId = setInterval(function () {
+          if (offset == +width.replace(/\D/ig, '') * (slides.length - 1)) {
+            offset = 0;
+            slideIndex = 0;
+          } else {
+            offset += +width.replace(/\D/ig, '');
+            slideIndex++;
+          }
+
+          slidesField.style.transform = `translateX(-${offset}px)`;
+          dots.forEach(dot => {
+            dot.classList.remove('active');
+          });
+          dots[slideIndex].classList.add('active');
+        }, 1000);
+      }
+
+      moveSlidesAuto();
+      this[i].addEventListener('mouseenter', () => {
+        clearInterval(timerId);
+      });
+      this[i].addEventListener('mouseleave', () => {
+        moveSlidesAuto();
+      });
+    }
   }
 };
 
@@ -2115,6 +2146,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/tab */ "./src/js/lib/components/tab.js");
 /* harmony import */ var _components_accordion__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/accordion */ "./src/js/lib/components/accordion.js");
 /* harmony import */ var _components_carousel__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/carousel */ "./src/js/lib/components/carousel.js");
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/requests */ "./src/js/lib/services/requests.js");
+
 
 
 
@@ -2629,6 +2662,57 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.click = function (handle
 
 /***/ }),
 
+/***/ "./src/js/lib/services/requests.js":
+/*!*****************************************!*\
+  !*** ./src/js/lib/services/requests.js ***!
+  \*****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.get = async function (url, dataTypeAnswer = 'json') {
+  let res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch ${url}, error${res.status}`);
+  }
+
+  switch (dataTypeAnswer) {
+    case 'json':
+      return await res.json();
+
+    case 'text':
+      return await res.text();
+
+    case 'blob':
+      return await res.blob();
+  }
+};
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.post = async function (url, data, dataTypeAnswer = 'text') {
+  let res = await fetch(url, {
+    method: 'POST',
+    body: data
+  });
+
+  switch (dataTypeAnswer) {
+    case 'json':
+      return await res.json();
+
+    case 'text':
+      return await res.text();
+
+    case 'blob':
+      return await res.blob();
+  }
+};
+
+/***/ }),
+
 /***/ "./src/js/main.js":
 /*!************************!*\
   !*** ./src/js/main.js ***!
@@ -2665,7 +2749,10 @@ Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('#trigger').click(() =>
       }]]
     }
   });
-});
+}); // $().get('https://jsonplaceholder.typicode.com/todos/1')
+//     .then(res => console.log(res));
+
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])().post('https://jsonplaceholder.typicode.com/posts', 'Lorem ipsum dolor sit amet consectetur adipisicing elit.').then(res => console.log(res));
 
 /***/ })
 
